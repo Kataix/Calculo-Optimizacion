@@ -12,6 +12,48 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.patches as mpatches
 
+## -------------------------- funcion Weibull ------------------- ##
+
+def Weibull(y,x):
+    x_1 = 1-np.exp(-(x*y))
+    return x_1
+## -------------------- funcion Higuchi -------------------- ##
+
+def Higuchi(y,x):
+    x_2 = x*y**(0.5)
+    return x_2
+
+#DATOS EXPERIMENTALES TABLA GUIÓN#
+a1 = np.linspace(0.1,1.0,10)
+a2 = [0.2,0.3,0.45,0.55,0.6,0.7,0.75,0.8,0.8,0.8]
+
+wb = []
+hg = []
+for x in range(len(a1)):
+    wb.append(Weibull(a2[x], a1[x]))
+    hg.append(Higuchi(a2[x], a1[x]))
+print("Datos de Weibull =",wb)
+print()
+plt.figure(0)
+plt.title("Modelo Weibull")
+plt.scatter(a1,a2, label="Datos")
+plt.plot(a1, wb, color="red", label="Weibull")
+#plt.scatter(a1,wb,color="green")
+plt.xlabel("Tiempo")
+plt.ylabel("u(t)")
+plt.grid()
+plt.legend()
+
+plt.figure(1)
+plt.title("Modelo Higuchi")
+plt.scatter(a1,a2, label="datos")
+print("Datos de Higuchi= ",hg)
+plt.plot(a1,hg,color="green", label="Higuchi")
+#plt.scatter(a1,hg,color="red")
+plt.xlabel("Tiempo")
+plt.ylabel("u(t)")
+plt.grid()
+plt.legend()
 ## --------------------------------- Funcion Rosenbrock ------------------------ ##
 
 
@@ -53,10 +95,6 @@ x_0 = np.array([-1.4,1.1])
 print(F(x_0))
 print(dF(x_0))
 
-plt.figure(figsize=(12, 7))
-plt.contour(X,Y,Z,200)
-plt.plot([x_0[0]],[x_0[1]],marker='o',markersize=15, color ='r')
-
 
 ### --------------------- Encontrar la direccion de descenso --------- ##
 
@@ -75,19 +113,6 @@ plt.arrow(x_0[0],x_0[1],s[0]/ns,s[1]/ns, head_width=0.2, head_length=0.1, fc='r'
 
 al = np.linspace(0,0.1,101)
 z = [F(x_0+a*s) for a in al]
-figLS = plt.figure(figsize=(12, 7))
-plt.plot(al,z)
-plt.ylabel('$f(x_0+ \\alpha s)$')
-plt.xlabel('$\\alpha$')
-plt.show()
-
-figLS = plt.figure(figsize=(12, 7))
-plt.plot(al,z)
-plt.yscale('log')
-plt.ylabel('$f(x_0+ \\alpha s)$')
-plt.xlabel('$\\alpha$')
-plt.show()
-
 
 theta = 0.1
 alpha = 1
